@@ -1,0 +1,12 @@
+/.vscode
+/download
+/concat
+/node_modules
+/dist
+*.yml
+.env
+.DS_Store
+theme.zip
+package-lock.json
+yarn.lock
+yarn-error.log

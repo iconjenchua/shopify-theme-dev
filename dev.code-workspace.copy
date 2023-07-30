@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"search.exclude": {
+			"dist": true
+		},
+		"files.eol": "\r\n",
+		"[shellscript]": {
+			"diffEditor.wordWrap": "on"
+		},
+		"liquid.config.baseUrl": "src",
+		"liquid.engine": "shopify"
+	}
+}

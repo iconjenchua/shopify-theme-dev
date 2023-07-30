@@ -1,0 +1,4 @@
+assets/
+sections/*.liquid
+snippets/
+layout/

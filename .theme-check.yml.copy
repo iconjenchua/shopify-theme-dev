@@ -1,0 +1,23 @@
+# If your theme is not using the supported directory structure, provide the root path
+# where to find the `templates/`, `sections/`, `snippets/` directories as they would
+# be uploaded to Shopify.
+root: src
+
+# It is possible to extend theme-check with custom checks
+require:
+#  - ./path/to/my_custom_check.rb
+
+TemplateLength:
+  # Disable some checks
+  enabled: false
+  # Or configure options
+  max_length: 300
+  # Or ignore certain paths
+  ignore:
+    - snippets/icon-*
+  # Or change the severity (error|suggestion|style)
+  severity: error
+
+# Enable a custom check
+#MyCustomCheck
+#  enabled: true
