@@ -25,20 +25,20 @@ Other than locales, configs, and templates, theme files must always refer to thi
 ## DEVELOPMENT COMMANDS
 - `npm run build`: Takes the files from `src`, modifies them as needed, and sends them to `dist`.
 - `npm run watch`: Runs `build`, then watches the theme you have identified in your `.env` file. Any changes you make to `src` will be built to `dist` and uploaded.
-- `npm run deploy`: Uploads to your theme set up in `.env`.
-- `npm run reconcile`: Downloads the current theme in `.env` to a folder called `download`, and copies the files to `src`, so you can see any changes in your git client. This will also copy the `settings_data.json` and `en.default.json` to their store replicas, based on STORE.
-- `npm run reconcilesettings`: Much like `reconcile`, but will ignore files inside the folders listed in `.theme_ignores`
+- `npm run deploy`: Uploads all files that have been changed to your theme set up in `.env`.
+- `npm run reconcile`: Downloads the current theme set up in `.env` to a folder called `download` and copies the files to `src`, so you can see any changes in your git client. If a folder for the current STORE is present, the downloaded version of the files existing in that folder will be copied to that folder instead. Files and folders listed in `.theme_ignores` will not be included in the reconcile.
+- `npm run reconcileall`: Much like `reconcile`, but will reconcile all files and folders, regardless if they are listed in `.theme_ignores`.
 - `npm run zip`: Makes a zip file containing the theme files, in case you want to upload manually. This can be very quick for deployments.
 
 ## CUSTOM SCSS
 When creating custom styling, create a custom.scss instead of overwriting the base css. Do not directly edit base CSS code from the base theme.
 
-Example: overriding section styling
+Scenario 1: overriding section styling
 - To override styling in `section-video-hero.css`, create a file called `section-video-hero.custom.scss`
 - The styling for both css and scss file will be merged into one file called `sectio-video-hero.css` and this will be uploaded to your dev theme
 - You do not need to import `section-video-hero.custom.css` in your `.liquid` file
 
-Example: creating styling for new section `product-banner.liquid`
+Scenario 2: creating styling for new section `product-banner.liquid`
 - Create file `section-product-banner.scss`
 - Import `section-product-banner.css` on your `product-banner.liquid` file
 
@@ -51,3 +51,5 @@ Example: creating styling for new section `product-banner.liquid`
 For uniformity, use VScode as your EDM when working. At the same time, to make things easier for you, install these extensions:
 - Shopify Liquid
 - Liquid
+
+Last updated: 2023-08-04
