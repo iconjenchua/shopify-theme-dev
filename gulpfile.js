@@ -27,6 +27,7 @@ const minifyOptions = {
     'customer.js',
     'color-swatches.js',
     'cart.js',
+    'recipient-form.js',
     'vendor-v4.js',
     '-min.js'
   ]
@@ -56,11 +57,16 @@ const paths = {
     templates_dir: 'src/templates',
     templates_customers: 'src/templates/customers/*',
     templates_customers_dir: 'src/templates/customers',
+    templates_metaobject: 'src/templates/metaobject/*',
+    templates_metaobject_dir: 'src/templates/metaobject',
   },
   store: {
     config: `stores/${process.env.STORE}/config/*.*`,
     config_dir: `stores/${process.env.STORE}/config`,
+    sections: `stores/${process.env.STORE}/sections/*`,
     sections_dir: `stores/${process.env.STORE}/sections`,
+    snippets: `stores/${process.env.STORE}/snippets/*`,
+    snippets_dir: `stores/${process.env.STORE}/snippets`,
     layout: `stores/${process.env.STORE}/layout/*`,
     layout_dir: `stores/${process.env.STORE}/layout`,
     locales: `stores/${process.env.STORE}/locales/*`,
@@ -69,6 +75,8 @@ const paths = {
     templates_dir: `stores/${process.env.STORE}/templates`,
     templates_customers: `stores/${process.env.STORE}/templates/customers/*`,
     templates_customers_dir: `stores/${process.env.STORE}/templates/customers`,
+    templates_metaobject: `stores/${process.env.STORE}/templates/metaobject/*`,
+    templates_metaobject_dir: `stores/${process.env.STORE}/templates/metaobject`,
   },
   dist: {
     folder: 'dist',
@@ -81,6 +89,7 @@ const paths = {
     snippets: 'dist/snippets',
     templates: 'dist/templates',
     templates_customers: 'dist/templates/customers',
+    templates_metaobject: 'dist/templates/metaobject',
   },
   download: {
     folder: 'download',
@@ -111,6 +120,8 @@ const paths = {
     layout_dir: 'download/layout',
     templates_customers: 'download/templates/customers/*.*',
     templates_customers_dir: 'download/templates/customers',
+    templates_metaobject: 'download/templates/metaobject/*.*',
+    templates_metaobject_dir: 'download/templates/metaobject',
   },
   concat: {
     folder: 'concat',
@@ -187,29 +198,26 @@ gulp.task('copy:assets', function (done) {
 });
 
 gulp.task('copy:layout', function (done) {
-  gulp.src(paths.src.layout).pipe(flatten()).pipe(gulp.dest(paths.dist.layout));
-  done();
+  return gulp.src(paths.src.layout).pipe(flatten()).pipe(gulp.dest(paths.dist.layout));
 });
 
 gulp.task('copy:sections', function (done) {
-  gulp.src(paths.src.sections).pipe(flatten()).pipe(gulp.dest(paths.dist.sections));
-  done();
+  return gulp.src(paths.src.sections).pipe(flatten()).pipe(gulp.dest(paths.dist.sections));
 });
 
 gulp.task('copy:snippets', function (done) {
-  gulp.src(paths.src.snippets).pipe(flatten()).pipe(gulp.dest(paths.dist.snippets));
-  done();
+  return gulp.src(paths.src.snippets).pipe(flatten()).pipe(gulp.dest(paths.dist.snippets));
 });
 
-gulp.task('copy:config', function (done) {
+gulp.task('copy:config', function () {
   return gulp.src(paths.src.config).pipe(gulp.dest(paths.dist.config));
 });
 
-gulp.task('copy:locales', function (done) {
+gulp.task('copy:locales', function () {
   return gulp.src(paths.src.locales).pipe(gulp.dest(paths.dist.locales));
 });
 
-gulp.task('copy:templates', function (done) {
+gulp.task('copy:templates', function () {
   return gulp.src(paths.src.templates).pipe(gulp.dest(paths.dist.templates));
 });
 
@@ -217,9 +225,14 @@ gulp.task('copy:templates:customers', function () {
   return gulp.src(paths.src.templates_customers).pipe(gulp.dest(paths.dist.templates_customers));
 });
 
+gulp.task('copy:templates:metaobject', function () {
+  return gulp.src(paths.src.templates_metaobject).pipe(gulp.dest(paths.dist.templates_metaobject));
+});
+
 // Copy store-specific files
 gulp.task('copy:config:store', function (done) {
-  return gulp.src(paths.store.config).pipe(gulp.dest(paths.dist.config));
+  gulp.src(paths.store.config).pipe(gulp.dest(paths.dist.config));
+  done();
 });
 
 gulp.task('copy:layout:store', function (done) {
@@ -228,35 +241,56 @@ gulp.task('copy:layout:store', function (done) {
 });
 
 gulp.task('copy:locales:store', function (done) {
-  return gulp.src(paths.store.locales).pipe(gulp.dest(paths.dist.locales));
+  gulp.src(paths.store.locales).pipe(gulp.dest(paths.dist.locales));
+  done();
 });
 
 gulp.task('copy:templates:store', function (done) {
-  return gulp.src(paths.store.templates).pipe(gulp.dest(paths.dist.templates));
+  gulp.src(paths.store.templates).pipe(gulp.dest(paths.dist.templates));
+  done();
 });
 
-gulp.task('copy:templates:customers:store', function () {
-  return gulp.src(paths.store.templates_customers).pipe(gulp.dest(paths.dist.templates_customers));
+gulp.task('copy:sections:store', function (done) {
+  gulp.src(paths.store.sections).pipe(gulp.dest(paths.dist.sections));
+  done();
 });
 
-gulp.task(
-  'copy',
+gulp.task('copy:snippets:store', function (done) {
+  gulp.src(paths.store.snippets).pipe(gulp.dest(paths.dist.snippets));
+  done();
+});
+
+gulp.task('copy:templates:customers:store', function (done) {
+  gulp.src(paths.store.templates_customers).pipe(gulp.dest(paths.dist.templates_customers));
+  done();
+});
+
+gulp.task('copy:templates:metaobject:store', function (done) {
+  gulp.src(paths.store.templates_metaobject).pipe(gulp.dest(paths.dist.templates_metaobject));
+  done();
+});
+
+gulp.task('copy',
   gulp.series([
     'copy:js',
     'copy:css',
     'copy:assets',
     'copy:config',
-    'copy:config:store',
     'copy:layout',
-    'copy:layout:store',
     'copy:locales',
-    'copy:locales:store',
     'copy:sections',
     'copy:snippets',
     'copy:templates',
     'copy:templates:customers',
+    'copy:templates:metaobject',
+    'copy:config:store',
+    'copy:layout:store',
+    'copy:locales:store',
+    'copy:sections:store',
+    'copy:snippets:store',
     'copy:templates:store',
     'copy:templates:customers:store',
+    'copy:templates:metaobject:store',
   ])
 );
 
@@ -334,6 +368,24 @@ gulp.task('copy:sync:snippets', function (done) {
     .pipe(gulp.dest(paths.src.snippets_dir));
 });
 
+gulp.task('copy:sync:snippets:store', function (done) {
+  const storeSnippetFiles = fs.readdirSync(paths.store.snippets_dir, {withFileTypes: true})
+    .filter(item => !item.isDirectory())
+    // Get only store files only in download/config
+    .map(item => `${paths.download.snippets_dir}/${item.name}`);
+  
+  if(storeSnippetFiles.length > 0) {
+    // Check store files in downloads/config
+    return gulp.src([...storeSnippetFiles], { allowEmpty: true })
+      // delete the original store-specific files(ie. header-group.json) in the download/sections directory
+      // .pipe(vinylPaths(del))
+      // paste the store files from download/sections to the store/sections directory
+      .pipe(gulp.dest(paths.store.snippets_dir));
+  } else {
+    done();
+  }
+});
+
 gulp.task('copy:sync:templates', function (done) {
   return gulp.src([paths.download.templates], { allowEmpty: true })
     .pipe(vinylPaths(del))
@@ -345,6 +397,12 @@ gulp.task('copy:sync:templates:customers', function (done) {
   return gulp.src([paths.download.templates_customers], { allowEmpty: true })
     .pipe(vinylPaths(del))
     .pipe(gulp.dest(paths.src.templates_customers_dir));
+});
+
+gulp.task('copy:sync:templates:metaobject', function (done) {
+  return gulp.src([paths.download.templates_metaobject], { allowEmpty: true })
+    .pipe(vinylPaths(del))
+    .pipe(gulp.dest(paths.src.templates_metaobject_dir));
 });
 
 // Store-specific reconciliation
@@ -440,12 +498,30 @@ gulp.task('copy:sync:templates:customers:store', function (done) {
   }
 });
 
+gulp.task('copy:sync:templates:metaobject:store', function (done) {
+  const storeTemplateMetaobjectFiles = fs.readdirSync(paths.store.templates_metaobject_dir, {withFileTypes: true})
+                          .filter(item => !item.isDirectory())
+                          // Get only snippet files only in download/templates_metaobject
+                          .map(item => `${paths.download.templates_metaobject_dir}/${item.name}`);
+
+  if(storeTemplateMetaobjectFiles.length > 0) {
+    // Check store files in downloads/locales
+    return gulp.src([...storeTemplateMetaobjectFiles], { allowEmpty: true })
+      // delete the original store-specific templates_metaobject in the download/templates_metaobject directory
+      .pipe(vinylPaths(del))
+      // paste the store files from download/templates_metaobject to the store/templates_metaobject directory
+      .pipe(gulp.dest(paths.store.templates_metaobject_dir));
+
+  } else {
+    done();
+  }
+});
+
 // Reconcile with the current theme set in config.yml
 // This should not really be necessary as code development in Shopify
 // code editor is forbidden. However, third-party app developers may
 // touch live/production files from time to time
-gulp.task(
-  'reconcileall',
+gulp.task('reconcileall',
   gulp.series([
     'del:settings',
     'del:locales',
@@ -457,27 +533,33 @@ gulp.task(
     'copy:sync:snippets',
     'copy:sync:templates',
     'copy:sync:templates:customers',
+    'copy:sync:templates:metaobject',
     // Reconcile store-specific files
     'copy:sync:config:store',
     'copy:sync:layout:store',
     'copy:sync:locales:store',
     'copy:sync:sections:store',
+    'copy:sync:snippets:store',
     'copy:sync:templates:store',
     'copy:sync:templates:customers:store',
+    'copy:sync:templates:metaobject:store',
   ])
 );
 
-gulp.task(
-  'reconcile',
+gulp.task('reconcile',
   gulp.series([
+    'copy:sync:config',
+    'copy:sync:locales',
     'copy:sync:sections',
-    'copy:sync:sections:store',
     'copy:sync:templates',
     'copy:sync:templates:customers',
+    'copy:sync:templates:metaobject',
     'copy:sync:config:store',
     'copy:sync:locales:store',
+    'copy:sync:sections:store',
     'copy:sync:templates:store',
     'copy:sync:templates:customers:store',
+    'copy:sync:templates:metaobject:store',
   ])
 );
 
@@ -496,15 +578,33 @@ gulp.task('watch', function (done) {
   );
 
   gulp.watch(
+    [paths.store.layout],
+    { usePolling: true },
+    gulp.series(['copy:layout:store'])
+  );
+
+  gulp.watch(
+    [paths.store.sections],
+    { usePolling: true },
+    gulp.series(['copy:sections:store'])
+  );
+
+  gulp.watch(
+    [paths.store.snippets],
+    { usePolling: true },
+    gulp.series(['copy:snippets:store'])
+  );
+
+  gulp.watch(
     [paths.src.locales, paths.store.locales],
     { usePolling: true },
     gulp.series(['copy:locales', 'copy:locales:store'])
   );
 
   gulp.watch(
-    [paths.store.templates, paths.store.templates_customers],
+    [paths.store.templates, paths.store.templates_customers, paths.store.templates_metaobject],
     { usePolling: true },
-    gulp.series(['copy:templates', 'copy:templates:store'])
+    gulp.series(['copy:templates:store', 'copy:templates:customers:store', 'copy:templates:metaobject:store'])
   );
 
   var watcher = gulp.watch(
@@ -514,7 +614,8 @@ gulp.task('watch', function (done) {
       paths.src.sections,
       paths.src.snippets,
       paths.src.templates,
-      paths.src.templates_customers
+      paths.src.templates_customers,
+      paths.src.templates_metaobject
     ],
     { usePolling: true }
   );
