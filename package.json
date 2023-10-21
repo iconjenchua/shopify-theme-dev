@@ -6,7 +6,6 @@
   "scripts": {
     "mkstoredir": "node scripts/mkStoreDir.js",
     "clean": "rimraf download && rimraf dist",
-    "copy": "gulp copy:css",
     "prebuild": "npm run clean",
     "build": "npm run mkstoredir",
     "postbuild": "gulp build",
@@ -19,11 +18,13 @@
     "prereconcile": "npm run build",
     "reconcile": "node scripts/reconcile.js",
     "postreconcile": "gulp reconcile",
+    "prereconcileall": "npm run build",
     "reconcileall": "node scripts/reconcile.js --all true",
     "postreconcileall": "gulp reconcileall",
     "presync": "npm run build",
     "sync": "node scripts/sync",
     "postsync": "gulp sync",
+    "prezip": "npm run build",
     "zip": "bestzip theme.zip dist/"
   },
   "author": "Icon Chua",
