@@ -12,7 +12,6 @@ Before coding, configure your `.env` and `config.yml` files correctly. If you se
 
 1. Copy `.env.copy` and name it as `.env`. Set the variable `STORE` to whatever store you are currently developing / working at. It must reflect the same environment set in your `config.yml` file. Leave to `development` if you are not deploying this theme in multiple stores.
 2. Copy `config.yml.copy` and name it as `config.yml`. Set the environment name to the value of the `STORE` variable in your `.env` file. Fill the `password` from the Theme Kit Access app in Shopify.
-3. Copy `dev.code-workspace.copy` and name it as `<your-store>.code-workspace`. This file ensures that all developers have the same set up in their work environments.
 
 ## MULTI-STORE SETUP
 If you intend to use this same repo / theme for various storefronts, ideally you will be using different settings / customisations / configuration files for each store. To make sure you are deploying the correct settings to the intended store and theme, always double check your `.env` and `config.yml` files.
@@ -25,20 +24,20 @@ Other than locales, configs, and templates, theme files must always refer to thi
 ## DEVELOPMENT COMMANDS
 - `npm run build`: Takes the files from `src`, modifies them as needed, and sends them to `dist`.
 - `npm run watch`: Runs `build`, then watches the theme you have identified in your `.env` file. Any changes you make to `src` will be built to `dist` and uploaded.
-- `npm run deploy`: Uploads all files that have been changed to your theme set up in `.env`.
-- `npm run reconcile`: Downloads the current theme set up in `.env` to a folder called `download` and copies the files to `src`, so you can see any changes in your git client. If a folder for the current STORE is present, the downloaded version of the files existing in that folder will be copied to that folder instead. Files and folders listed in `.theme_ignores` will not be included in the reconcile.
-- `npm run reconcileall`: Much like `reconcile`, but will reconcile all files and folders, regardless if they are listed in `.theme_ignores`.
+- `npm run deploy`: Uploads to your theme set up in `.env`.
+- `npm run reconcile`: Downloads current theme `.json` configuration files including section `.json` files and copies them to `src` or to the `stores` folder if doing multi-store development,  so you can see any changes in your git client. Use this 90% of the time.
+- `npm run reconcileall`: Much like `reconcile` but downloads ALL files (assets, snippets, layout, etc.). Use this only when necessary edits done via the Shopify code editor needs to be reconciled in the repo.
 - `npm run zip`: Makes a zip file containing the theme files, in case you want to upload manually. This can be very quick for deployments.
 
 ## CUSTOM SCSS
 When creating custom styling, create a custom.scss instead of overwriting the base css. Do not directly edit base CSS code from the base theme.
 
-Scenario 1: overriding section styling
+Example: overriding section styling
 - To override styling in `section-video-hero.css`, create a file called `section-video-hero.custom.scss`
 - The styling for both css and scss file will be merged into one file called `sectio-video-hero.css` and this will be uploaded to your dev theme
 - You do not need to import `section-video-hero.custom.css` in your `.liquid` file
 
-Scenario 2: creating styling for new section `product-banner.liquid`
+Example: creating styling for new section `product-banner.liquid`
 - Create file `section-product-banner.scss`
 - Import `section-product-banner.css` on your `product-banner.liquid` file
 
@@ -52,4 +51,4 @@ For uniformity, use VScode as your EDM when working. At the same time, to make t
 - Shopify Liquid
 - Liquid
 
-Last updated: 2023-08-04
+Last updated: 2023-10-21
