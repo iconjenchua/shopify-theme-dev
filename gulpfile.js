@@ -301,6 +301,7 @@ gulp.task('copy',
 gulp.task('del:settings', function () {
   return del([
     'download/config/*',
+    'download/sections/*.json',
     '!download/config/settings_data.json',
     '!download/config/settings_schema.json',
   ]);
@@ -354,7 +355,7 @@ gulp.task('copy:sync:sections:store', function (done) {
     // Check store files in downloads/config
     return gulp.src([...storeSectionFiles], { allowEmpty: true })
       // delete the original store-specific files(ie. header-group.json) in the download/sections directory
-      // .pipe(vinylPaths(del))
+      .pipe(vinylPaths(del))
       // paste the store files from download/sections to the store/sections directory
       .pipe(gulp.dest(paths.store.sections_dir));
   } else {
@@ -378,7 +379,7 @@ gulp.task('copy:sync:snippets:store', function (done) {
     // Check store files in downloads/config
     return gulp.src([...storeSnippetFiles], { allowEmpty: true })
       // delete the original store-specific files(ie. header-group.json) in the download/sections directory
-      // .pipe(vinylPaths(del))
+      .pipe(vinylPaths(del))
       // paste the store files from download/sections to the store/sections directory
       .pipe(gulp.dest(paths.store.snippets_dir));
   } else {
@@ -523,6 +524,15 @@ gulp.task('copy:sync:templates:metaobject:store', function (done) {
 // touch live/production files from time to time
 gulp.task('reconcileall',
   gulp.series([
+    // Reconcile store-specific files
+    'copy:sync:config:store',
+    'copy:sync:layout:store',
+    'copy:sync:locales:store',
+    'copy:sync:sections:store',
+    'copy:sync:snippets:store',
+    'copy:sync:templates:store',
+    'copy:sync:templates:customers:store',
+    'copy:sync:templates:metaobject:store',
     'del:settings',
     'del:locales',
     'copy:sync:assets',
@@ -534,32 +544,23 @@ gulp.task('reconcileall',
     'copy:sync:templates',
     'copy:sync:templates:customers',
     'copy:sync:templates:metaobject',
-    // Reconcile store-specific files
-    'copy:sync:config:store',
-    'copy:sync:layout:store',
-    'copy:sync:locales:store',
-    'copy:sync:sections:store',
-    'copy:sync:snippets:store',
-    'copy:sync:templates:store',
-    'copy:sync:templates:customers:store',
-    'copy:sync:templates:metaobject:store',
   ])
 );
 
 gulp.task('reconcile',
   gulp.series([
+    'copy:sync:config:store',
+    'copy:sync:locales:store',
+    'copy:sync:sections:store',
+    'copy:sync:templates:store',
+    'copy:sync:templates:customers:store',
+    'copy:sync:templates:metaobject:store',
     'copy:sync:config',
     'copy:sync:locales',
     'copy:sync:sections',
     'copy:sync:templates',
     'copy:sync:templates:customers',
     'copy:sync:templates:metaobject',
-    'copy:sync:config:store',
-    'copy:sync:locales:store',
-    'copy:sync:sections:store',
-    'copy:sync:templates:store',
-    'copy:sync:templates:customers:store',
-    'copy:sync:templates:metaobject:store',
   ])
 );
 
