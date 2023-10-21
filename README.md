@@ -4,6 +4,7 @@ This repo uses a build process powered by Gulp. This means that instead of editi
 1. Install [Node Package Manager](https://www.npmjs.com/get-npm), or NPM, which allows you to download scripts from online repositories.
 2. Install [gulp-cli](https://www.npmjs.com/package/gulp-cli), the command line utility for Gulp: `npm install --global gulp-cli`
 3. Navigate to your project and run `npm install`. This should install all of the dependencies listed in `package.json`, so the build process can use those tools.
+4. Install [Shopify Theme Kit](https://shopify.dev/docs/themes/tools/theme-kit/getting-started) as most of the CLI tools and commands still use this to deploy, download, watch, etc. the dev theme.
 
 Once you have `npm` and `gulp-cli` installed, you can start developing. Briefly, what you should expect is that you can change files in `src`, and depending on your dev environment, the build process will do different things to them before sending them to `dist`. `dist` is what actually goes online, but it has to be built first from `src`. Your dev environment is determined by variables in `.env` and `config.yml`.
 
