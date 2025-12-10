@@ -1,0 +1,4 @@
+[environments.development]
+password = "password"
+theme = "1234567891011"
+store = "shopify"
